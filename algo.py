@@ -99,3 +99,40 @@ for event_id, event_data in top_10_texts:
     print(f"Title: {event_data['title']}")
     print(f"BM25 Score (Text): {event_data['bm25_text']:.2f}")
     print()
+
+
+# Function to calculate TF for a query
+def calculate_tf_for_query(query):
+    tf_query = {}
+    words = query.split()
+    for word in words:
+        tf_query[word] = tf_query.get(word, 0) + 1
+    return tf_query
+
+# Function to calculate BM25 score for a query
+def bm25_query(query_tf, document_tf, idf, avg_len, doc_len, k1=1.5, b=0.75):
+    return bm25({word: query_tf.get(word, 0) * freq for word, freq in document_tf.items()}, idf, avg_len, doc_len, k1, b)
+
+# User search function
+def search_events(query):
+    query_tf = calculate_tf_for_query(query)
+    results = []
+
+    for event_id, event_data in data.items():
+        score_title = bm25_query(query_tf, event_data['tf_title'], idf_title, avg_len_title, len(event_data['title'].split()))
+        score_text = bm25_query(query_tf, event_data['tf_text'], idf_text, avg_len_text, len(event_data['text'].split()))
+        results.append((event_id, event_data['title'], score_title, score_text))
+    
+    # Sort results by BM25 score for the title and return the top results
+    results = sorted(results, key=lambda x: x[2], reverse=True)[:10]
+    
+    print("Top 10 Results for Your Query:")
+    for event_id, title, score_title, score_text in results:
+        print(f"Event ID: {event_id}")
+        print(f"Title: {title}")
+        print(f"BM25 Score (Title): {score_title:.2f}")
+        print(f"BM25 Score (Text): {score_text:.2f}")
+        print()
+
+query = input("Enter your search query: ")
+search_events(query)
