@@ -104,6 +104,7 @@ class Algo:
 app = Flask(__name__)
 algo = Algo()
 
+# ex: http://127.0.0.1:5000/search?query=Denver+Broncos
 @app.route("/search")
 def search():
     query = request.args.get("query")
