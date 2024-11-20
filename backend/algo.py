@@ -32,7 +32,7 @@ class Algo:
 
     def retrieve_data(self):
         # Load the events data from the file
-        with open('events_data_dict3.json', 'r') as file:
+        with open('events_data_dict2.json', 'r') as file:
             events_dict = json.load(file)
 
         # Initialize data for TF, IDF, and BM25 scores
