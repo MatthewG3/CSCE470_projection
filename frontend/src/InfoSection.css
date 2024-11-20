@@ -49,4 +49,8 @@
     max-width: 600px;
     height: auto;
   }
-  
+
+  .chart {
+    width: 450px;
+    height: auto;
+  }
