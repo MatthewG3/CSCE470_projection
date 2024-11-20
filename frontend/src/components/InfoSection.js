@@ -1,5 +1,6 @@
 import React from 'react';
 import '../InfoSection.css';
+import nflChart from '../assets/nflchart.png';
 
 const InfoSection = () => {
   return (
@@ -10,11 +11,7 @@ const InfoSection = () => {
         There's plenty to explore, such as largest comebacks from last year, most exciting games, and many more!
       </p>
       
-      <img
-        src="https://via.placeholder.com/300" // Replace with your actual image or graph
-        alt="Graph Placeholder"
-        className="info-graph"
-      />
+      <img src={nflChart} alt="NFL Chart" className="chart" />
     </div>
   );
 };
