@@ -11,9 +11,28 @@ class Algo:
         self.avg_len_title = sum(len(event['title'].split()) for event in self.data.values()) / self.N
         self.avg_len_text = sum(len(event['text'].split()) for event in self.data.values()) / self.N
 
+    def reformat_statistics(self, boxscore):
+        stats = {}
+
+        for entry in boxscore:
+            team_name = entry["team"]["displayName"]
+
+            for stat in entry["statistics"]:
+                label = stat["label"]
+                display_value = stat["displayValue"]
+
+                if label not in stats:
+                    stats[label] = []
+                
+                if (team_name, display_value) not in stats[label]:
+                    stats[label].append((team_name, display_value))
+
+        return stats
+
+
     def retrieve_data(self):
         # Load the events data from the file
-        with open('events_data_dict.json', 'r') as file:
+        with open('events_data_dict3.json', 'r') as file:
             events_dict = json.load(file)
 
         # Initialize data for TF, IDF, and BM25 scores
@@ -26,7 +45,7 @@ class Algo:
                 'text': event['text'],
                 'tf_title': {},
                 'tf_text': {},
-                'stats': events_dict[id]['boxscore']
+                'stats': self.reformat_statistics(events_dict[id]['boxscore'])
             }
         
             # Calculate TF for title

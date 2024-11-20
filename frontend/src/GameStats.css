@@ -1,0 +1,36 @@
+.game-stats {
+    margin: 10px;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .toggle-button {
+    cursor: pointer;
+    padding: 8px 12px;
+    background-color: #e0e0e0;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+  
+  .stats-details {
+    margin-top: 10px;
+  }
+  
+  .stat-group {
+    margin-bottom: 5px;
+  }
+  
+  .stat-label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  
+  .stat-value {
+    margin-left: 20px;
+    color: #666;
+  }
+  

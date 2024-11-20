@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
+import "../GameStats.css";
 
 const GameStats = ({ stats }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleExpand = () => setIsExpanded(!isExpanded);
 
   return (
-    <div>
-      <button onClick={toggleDropdown} style={{ margin: '10px', padding: '5px 10px', cursor: 'pointer' }}>
-        {isOpen ? 'Hide Details' : 'Show Details'}
-      </button>
-      {isOpen && (
-        <div style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
-          {stats.map((stat, index) => (
-            <div key={index}>
-              <strong>{stat.label}:</strong> {stat.displayValue}
+    <div className="game-stats">
+      <div className="toggle-button" onClick={toggleExpand}>
+        {isExpanded ? 'Hide Details' : 'Show Details'}
+      </div>
+      {isExpanded && (
+        <div className="stats-details">
+          {Object.entries(stats).map(([statLabel, teamStats]) => (
+            <div key={statLabel} className="stat-group">
+              <div className="stat-label">{statLabel}:</div>
+              {teamStats.map(([teamName, value], index) => (
+                <div key={index} className="stat-value">
+                  {teamName}: {value}
+                </div>
+              ))}
             </div>
           ))}
         </div>

@@ -3,7 +3,7 @@ import re
 import json
 
 def save_file(arr):
-    with open('events_data_dict2.json', 'w') as file:
+    with open('events_data_dict3.json', 'w') as file:
         json.dump(arr, file)
 
 def process_text(text):
@@ -62,7 +62,7 @@ def get_story(event_id):
     return process_text(d.get('article', {}).get('story', ''))
     # return d['article']['story']
 
-years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+years = [2020, 2021, 2022, 2023]
 for year in years:
     for i in teams_dict.values():
         # get events for team
