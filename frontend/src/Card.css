@@ -1,0 +1,17 @@
+/* Card.css */
+.card {
+    width: 70%;               /* Cards take up 70% of their container's width */
+    margin: 10px auto;        /* Centers the card and adds spacing */
+    padding: 20px;
+    border: 1px solid black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for better visibility */
+    background-color: lightgrey;
+  }
+  
+  /* Optional: Responsive design */
+  @media (max-width: 768px) {
+    .card {
+      width: 90%;             /* Wider cards on smaller screens */
+    }
+  }
+  

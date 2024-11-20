@@ -62,19 +62,21 @@ def get_story(event_id):
     return process_text(d.get('article', {}).get('story', ''))
     # return d['article']['story']
 
-for i in teams_dict.values():
-    # get events for team
-    events_url = f'https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/{i}/events?limit=50'
-    events = api_call(events_url)
-    for j in events['items']:
-        event_dict = {}
-        d = api_call(j['$ref'])
-        event_dict['id'] = d['id']
-        event_dict['name'] = d['name']
-        event_dict['boxscore'] = get_boxscore_stats(d['id'])
-        event_dict['text'] = get_story(d['id'])
-        events_array.append(event_dict)
-        all_events[d['id']] = event_dict
+years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+for year in years:
+    for i in teams_dict.values():
+        # get events for team
+        events_url = f'https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{year}/teams/{i}/events?limit=50'
+        events = api_call(events_url)
+        for j in events['items']:
+            event_dict = {}
+            d = api_call(j['$ref'])
+            event_dict['id'] = d['id']
+            event_dict['name'] = d['name']
+            event_dict['boxscore'] = get_boxscore_stats(d['id'])
+            event_dict['text'] = get_story(d['id'])
+            events_array.append(event_dict)
+            all_events[d['id']] = event_dict
 
 print(len(all_events))
 save_file(events_array)

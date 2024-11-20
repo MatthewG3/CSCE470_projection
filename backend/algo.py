@@ -1,6 +1,7 @@
 import json
 import math
 from flask import Flask, request
+from flask_cors import CORS
 
 class Algo:
 
@@ -12,31 +13,32 @@ class Algo:
 
     def retrieve_data(self):
         # Load the events data from the file
-        with open('events_data.json', 'r') as file:
+        with open('events_data_dict.json', 'r') as file:
             events_dict = json.load(file)
 
         # Initialize data for TF, IDF, and BM25 scores
         data = {}
         N = len(events_dict)  # Total number of documents
         # Calculate term frequency for each event title and text
-        for event in events_dict:
-            event_id = event['id']
-            data[event_id] = {
+        for id, event in events_dict.items():
+            data[id] = {
                 'title': event['name'],
-                'text': event['story'],
+                'text': event['text'],
                 'tf_title': {},
-                'tf_text': {}
+                'tf_text': {},
+                'stats': events_dict[id]['boxscore']
             }
         
             # Calculate TF for title
             words_title = event['name'].split()
+            words_title = [word.lower() for word in words_title]
             for word in words_title:
-                data[event_id]['tf_title'][word] = data[event_id]['tf_title'].get(word, 0) + 1
+                data[id]['tf_title'][word] = data[id]['tf_title'].get(word, 0) + 1
             
             # Calculate TF for text
-            words_text = event['story'].split()
+            words_text = event['text'].split()
             for word in words_text:
-                data[event_id]['tf_text'][word] = data[event_id]['tf_text'].get(word, 0) + 1
+                data[id]['tf_text'][word] = data[id]['tf_text'].get(word, 0) + 1
 
         # Calculate IDF for words in all titles and texts
         idf_title = {}
@@ -75,6 +77,7 @@ class Algo:
     def calculate_tf_for_query(self, query):
         tf_query = {}
         words = query.split()
+        words = [word.lower() for word in words]
         for word in words:
             tf_query[word] = tf_query.get(word, 0) + 1
         return tf_query
@@ -91,7 +94,7 @@ class Algo:
         for event_id, event_data in self.data.items():
             score_title = self.bm25_query(query_tf, event_data['tf_title'], self.idf_title, self.avg_len_title, len(event_data['title'].split()))
             score_text = self.bm25_query(query_tf, event_data['tf_text'], self.idf_text, self.avg_len_text, len(event_data['text'].split()))
-            results.append((event_id, event_data['title'], score_title, score_text))
+            results.append((event_id, event_data['title'], score_title, score_text, self.data[event_id]['stats']))
         
         # Sort results by BM25 score for the title and return the top results
         results = sorted(results, key=lambda x: x[2], reverse=True)[:10]
@@ -102,13 +105,14 @@ class Algo:
 
 
 app = Flask(__name__)
+CORS(app)
 algo = Algo()
 
 # ex: http://127.0.0.1:5000/search?query=Denver+Broncos
 @app.route("/search")
 def search():
     query = request.args.get("query")
-    query = query.replace('+', ' ')
+    query = query.replace('%20', ' ')
     results = algo.search_events(query)
     return results
 
