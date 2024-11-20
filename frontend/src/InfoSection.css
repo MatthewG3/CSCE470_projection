@@ -1,0 +1,52 @@
+.info-section {
+    background-color: #fff;
+    padding: 40px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .search-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .info-input {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .go-button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+  }
+  
+  .go-button:hover {
+    background-color: #218838;
+  }
+  
+  .info-graph {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+  }
+  
