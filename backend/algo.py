@@ -127,7 +127,7 @@ app = Flask(__name__)
 CORS(app)
 algo = Algo()
 
-# ex: http://127.0.0.1:5000/search?query=Denver+Broncos
+# ex: http://127.0.0.1:5000/search?query=Denver%20Broncos
 @app.route("/search")
 def search():
     query = request.args.get("query")
